@@ -1,4 +1,5 @@
-const lighthouse = require('lighthouse');
+const lighthouseModule = require('lighthouse');
+const lighthouse = lighthouseModule.default || lighthouseModule;
 const chromeLauncher = require('chrome-launcher');
 
 (async () => {
@@ -6,20 +7,28 @@ const chromeLauncher = require('chrome-launcher');
     chromeFlags: ['--headless']
   });
 
-  const result = await lighthouse(
-    'https://www.ocn.ne.jp',
-    {
-      port: chrome.port,
-      output: 'json',
-      onlyCategories: ['performance']
-    }
-  );
+  const result = await lighthouse('https://www.ocn.ne.jp', {
+    port: chrome.port,
+    output: 'json',
+    onlyCategories: ['performance']
+  });
 
   const audits = result.lhr.audits;
 
-  console.log('LCP:', audits['largest-contentful-paint'].numericValue);
-  console.log('TBT:', audits['total-blocking-time'].numericValue);
-  console.log('CLS:', audits['cumulative-layout-shift'].numericValue);
+  console.log(
+    'LCP:',
+    audits['largest-contentful-paint'].numericValue
+  );
+
+  console.log(
+    'TBT:',
+    audits['total-blocking-time'].numericValue
+  );
+
+  console.log(
+    'CLS:',
+    audits['cumulative-layout-shift'].numericValue
+  );
 
   await chrome.kill();
 })();
