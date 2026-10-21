@@ -12,13 +12,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - run: npm install
+      - name: Install Dependencies
+        run: npm install
 
       - name: Run Lighthouse Mobile
         run: |
@@ -39,10 +42,10 @@ jobs:
         run: |
           grep -A 60 '"configSettings"' mobile-report.json
 
-      - name: Show Mobile LCP
+      - name: Show Mobile Metrics
         run: |
-          grep -A 15 '"largest-contentful-paint"' mobile-report.json
+          grep -E '"largest-contentful-paint"|"total-blocking-time"|"cumulative-layout-shift"' mobile-report.json -A 12
 
-      - name: Show Desktop LCP
+      - name: Show Desktop Metrics
         run: |
-          grep -A 15 '"largest-contentful-paint"' desktop-report.json
+          grep -E '"largest-contentful-paint"|"total-blocking-time"|"cumulative-layout-shift"' desktop-report.json -A 12
