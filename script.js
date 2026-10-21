@@ -24,31 +24,6 @@ const URL = 'https://www.ocn.ne.jp';
   console.log('===== MOBILE =====');
 
   console.log(
-    'Form Factor:',
-    mobileResult.lhr.configSettings.formFactor
-  );
-
-  console.log(
-    'Screen Emulation:',
-    mobileResult.lhr.configSettings.screenEmulation
-  );
-
-  console.log(
-    'Throttling:',
-    mobileResult.lhr.configSettings.throttling
-  );
-
-  console.log(
-    'Lighthouse Version:',
-    mobileResult.lhr.lighthouseVersion
-  );
-
-  console.log(
-    'Final URL:',
-    mobileResult.lhr.finalDisplayedUrl
-  );
-
-  console.log(
     'LCP:',
     mobileAudits['largest-contentful-paint'].numericValue
   );
@@ -101,11 +76,6 @@ const URL = 'https://www.ocn.ne.jp';
   );
 
   console.log(
-    'Lighthouse Version:',
-    desktopResult.lhr.lighthouseVersion
-  );
-
-  console.log(
     'Final URL:',
     desktopResult.lhr.finalDisplayedUrl
   );
@@ -123,6 +93,14 @@ const URL = 'https://www.ocn.ne.jp';
   console.log(
     'CLS:',
     desktopAudits['cumulative-layout-shift'].numericValue
+  );
+
+  // ★追加
+  console.log(
+    'LCP Details:'
+  );
+  console.log(
+    desktopAudits['largest-contentful-paint'].details
   );
 
   await desktopChrome.kill();
