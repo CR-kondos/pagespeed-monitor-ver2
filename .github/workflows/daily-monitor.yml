@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Display Time
-        run: date
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: node script.js
