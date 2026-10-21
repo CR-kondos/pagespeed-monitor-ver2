@@ -1,10 +1,6 @@
 name: Daily Monitor
 
 on:
-  schedule:
-    - cron: '30 2 * * 1-5'
-    - cron: '30 5 * * 1-5'
-    - cron: '30 8 * * 1-5'
   workflow_dispatch:
 
 jobs:
@@ -12,12 +8,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - run: npm install
+      - name: Install Dependencies
+        run: npm install
 
-      - run: node script.js
+      - name: Run Lighthouse Desktop
+        run: |
+          npx lighthouse https://www.ocn.ne.jp \
+            --preset=desktop \
+            --output=json \
+            --output-path=desktop-report.json \
+            --chrome-flags="--headless"
+
+      - name: Inspect Report
+        run: |
+          cat desktop-report.json | grep -A 20 '"largest-contentful-paint"'
