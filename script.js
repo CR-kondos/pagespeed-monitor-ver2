@@ -2,18 +2,23 @@ const lighthouseModule = require('lighthouse');
 const lighthouse = lighthouseModule.default || lighthouseModule;
 const chromeLauncher = require('chrome-launcher');
 
-(async () => {
+const URL = 'https://www.ocn.ne.jp';
+
+async function runLighthouse(formFactor) {
   const chrome = await chromeLauncher.launch({
     chromeFlags: ['--headless']
   });
 
-  const result = await lighthouse('https://www.ocn.ne.jp', {
+  const result = await lighthouse(URL, {
     port: chrome.port,
     output: 'json',
-    onlyCategories: ['performance']
+    onlyCategories: ['performance'],
+    formFactor: formFactor
   });
 
   const audits = result.lhr.audits;
+
+  console.log(`===== ${formFactor.toUpperCase()} =====`);
 
   console.log(
     'LCP:',
@@ -31,4 +36,9 @@ const chromeLauncher = require('chrome-launcher');
   );
 
   await chrome.kill();
+}
+
+(async () => {
+  await runLighthouse('mobile');
+  await runLighthouse('desktop');
 })();
