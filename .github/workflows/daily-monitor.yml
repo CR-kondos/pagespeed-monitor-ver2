@@ -35,6 +35,10 @@ jobs:
             --output-path=desktop-report.json \
             --chrome-flags="--headless"
 
+      - name: Show Mobile Config
+        run: |
+          grep -A 60 '"configSettings"' mobile-report.json
+
       - name: Show Mobile LCP
         run: |
           grep -A 15 '"largest-contentful-paint"' mobile-report.json
