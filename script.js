@@ -44,6 +44,11 @@ const URL = 'https://www.ocn.ne.jp';
   );
 
   console.log(
+    'Final URL:',
+    mobileResult.lhr.finalDisplayedUrl
+  );
+
+  console.log(
     'LCP:',
     mobileAudits['largest-contentful-paint'].numericValue
   );
@@ -89,8 +94,20 @@ const URL = 'https://www.ocn.ne.jp';
   console.log('===== DESKTOP =====');
 
   console.log(
-    'Form Factor:',
-    desktopResult.lhr.configSettings.formFactor
+    'Config Settings:'
+  );
+  console.log(
+    desktopResult.lhr.configSettings
+  );
+
+  console.log(
+    'Lighthouse Version:',
+    desktopResult.lhr.lighthouseVersion
+  );
+
+  console.log(
+    'Final URL:',
+    desktopResult.lhr.finalDisplayedUrl
   );
 
   console.log(
