@@ -1,0 +1,8 @@
+{
+  "name": "pagespeed-monitor",
+  "version": "1.0.0",
+  "dependencies": {
+    "lighthouse": "^12.0.0",
+    "chrome-launcher": "^1.1.0"
+  }
+}
