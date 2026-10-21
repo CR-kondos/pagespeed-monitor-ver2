@@ -4,41 +4,80 @@ const chromeLauncher = require('chrome-launcher');
 
 const URL = 'https://www.ocn.ne.jp';
 
-async function runLighthouse(formFactor) {
-  const chrome = await chromeLauncher.launch({
+(async () => {
+
+  // =====================
+  // Mobile
+  // =====================
+  const mobileChrome = await chromeLauncher.launch({
     chromeFlags: ['--headless']
   });
 
-  const result = await lighthouse(URL, {
-    port: chrome.port,
+  const mobileResult = await lighthouse(URL, {
+    port: mobileChrome.port,
     output: 'json',
-    onlyCategories: ['performance'],
-    formFactor: formFactor
+    onlyCategories: ['performance']
   });
 
-  const audits = result.lhr.audits;
+  const mobileAudits = mobileResult.lhr.audits;
 
-  console.log(`===== ${formFactor.toUpperCase()} =====`);
-
+  console.log('===== MOBILE =====');
   console.log(
     'LCP:',
-    audits['largest-contentful-paint'].numericValue
+    mobileAudits['largest-contentful-paint'].numericValue
   );
-
   console.log(
     'TBT:',
-    audits['total-blocking-time'].numericValue
+    mobileAudits['total-blocking-time'].numericValue
   );
-
   console.log(
     'CLS:',
-    audits['cumulative-layout-shift'].numericValue
+    mobileAudits['cumulative-layout-shift'].numericValue
   );
 
-  await chrome.kill();
-}
+  await mobileChrome.kill();
 
-(async () => {
-  await runLighthouse('mobile');
-  await runLighthouse('desktop');
+
+  // =====================
+  // Desktop
+  // =====================
+  const desktopChrome = await chromeLauncher.launch({
+    chromeFlags: [
+      '--headless',
+      '--window-size=1350,940'
+    ]
+  });
+
+  const desktopResult = await lighthouse(URL, {
+    port: desktopChrome.port,
+    output: 'json',
+    onlyCategories: ['performance'],
+    formFactor: 'desktop',
+    screenEmulation: {
+      mobile: false,
+      width: 1350,
+      height: 940,
+      deviceScaleFactor: 1,
+      disabled: false
+    }
+  });
+
+  const desktopAudits = desktopResult.lhr.audits;
+
+  console.log('===== DESKTOP =====');
+  console.log(
+    'LCP:',
+    desktopAudits['largest-contentful-paint'].numericValue
+  );
+  console.log(
+    'TBT:',
+    desktopAudits['total-blocking-time'].numericValue
+  );
+  console.log(
+    'CLS:',
+    desktopAudits['cumulative-layout-shift'].numericValue
+  );
+
+  await desktopChrome.kill();
+
 })();
