@@ -7,7 +7,7 @@ const URL = 'https://www.ocn.ne.jp';
 (async () => {
 
   // =====================
-  // Mobile
+  // MOBILE
   // =====================
   const mobileChrome = await chromeLauncher.launch({
     chromeFlags: ['--headless']
@@ -22,14 +22,37 @@ const URL = 'https://www.ocn.ne.jp';
   const mobileAudits = mobileResult.lhr.audits;
 
   console.log('===== MOBILE =====');
+
+  console.log(
+    'Form Factor:',
+    mobileResult.lhr.configSettings.formFactor
+  );
+
+  console.log(
+    'Screen Emulation:',
+    mobileResult.lhr.configSettings.screenEmulation
+  );
+
+  console.log(
+    'Throttling:',
+    mobileResult.lhr.configSettings.throttling
+  );
+
+  console.log(
+    'Lighthouse Version:',
+    mobileResult.lhr.lighthouseVersion
+  );
+
   console.log(
     'LCP:',
     mobileAudits['largest-contentful-paint'].numericValue
   );
+
   console.log(
     'TBT:',
     mobileAudits['total-blocking-time'].numericValue
   );
+
   console.log(
     'CLS:',
     mobileAudits['cumulative-layout-shift'].numericValue
@@ -37,9 +60,8 @@ const URL = 'https://www.ocn.ne.jp';
 
   await mobileChrome.kill();
 
-
   // =====================
-  // Desktop
+  // DESKTOP
   // =====================
   const desktopChrome = await chromeLauncher.launch({
     chromeFlags: [
@@ -65,14 +87,22 @@ const URL = 'https://www.ocn.ne.jp';
   const desktopAudits = desktopResult.lhr.audits;
 
   console.log('===== DESKTOP =====');
+
+  console.log(
+    'Form Factor:',
+    desktopResult.lhr.configSettings.formFactor
+  );
+
   console.log(
     'LCP:',
     desktopAudits['largest-contentful-paint'].numericValue
   );
+
   console.log(
     'TBT:',
     desktopAudits['total-blocking-time'].numericValue
   );
+
   console.log(
     'CLS:',
     desktopAudits['cumulative-layout-shift'].numericValue
