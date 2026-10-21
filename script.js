@@ -95,12 +95,12 @@ const URL = 'https://www.ocn.ne.jp';
     desktopAudits['cumulative-layout-shift'].numericValue
   );
 
-  // ★追加
   console.log(
-    'LCP Details:'
+    'LCP Audit Full:'
   );
+
   console.log(
-    desktopAudits['largest-contentful-paint'].details
+    desktopAudits['largest-contentful-paint']
   );
 
   await desktopChrome.kill();
