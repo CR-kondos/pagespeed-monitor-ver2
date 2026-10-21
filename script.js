@@ -44,24 +44,13 @@ const URL = 'https://www.ocn.ne.jp';
   // DESKTOP
   // =====================
   const desktopChrome = await chromeLauncher.launch({
-    chromeFlags: [
-      '--headless',
-      '--window-size=1350,940'
-    ]
+    chromeFlags: ['--headless']
   });
 
   const desktopResult = await lighthouse(URL, {
     port: desktopChrome.port,
     output: 'json',
-    onlyCategories: ['performance'],
-    formFactor: 'desktop',
-    screenEmulation: {
-      mobile: false,
-      width: 1350,
-      height: 940,
-      deviceScaleFactor: 1,
-      disabled: false
-    }
+    preset: 'desktop'
   });
 
   const desktopAudits = desktopResult.lhr.audits;
@@ -71,6 +60,7 @@ const URL = 'https://www.ocn.ne.jp';
   console.log(
     'Config Settings:'
   );
+
   console.log(
     desktopResult.lhr.configSettings
   );
@@ -93,14 +83,6 @@ const URL = 'https://www.ocn.ne.jp';
   console.log(
     'CLS:',
     desktopAudits['cumulative-layout-shift'].numericValue
-  );
-
-  console.log(
-    'LCP Audit Full:'
-  );
-
-  console.log(
-    desktopAudits['largest-contentful-paint']
   );
 
   await desktopChrome.kill();
