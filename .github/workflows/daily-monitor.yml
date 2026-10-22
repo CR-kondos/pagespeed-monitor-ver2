@@ -57,3 +57,12 @@ jobs:
       - name: Show CSV
         run: |
           cat metrics.csv
+
+      - name: Commit CSV
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+          git add metrics.csv
+          git commit -m "Update metrics" || echo "No changes"
+          git push
