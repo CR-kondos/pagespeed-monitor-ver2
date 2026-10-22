@@ -49,3 +49,11 @@ jobs:
       - name: Show Desktop Metrics
         run: |
           grep -E '"largest-contentful-paint"|"total-blocking-time"|"cumulative-layout-shift"' desktop-report.json -A 12
+
+      - name: Build CSV
+        run: |
+          node parser.js
+
+      - name: Show CSV
+        run: |
+          cat metrics.csv
